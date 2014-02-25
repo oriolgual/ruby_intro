@@ -3,8 +3,8 @@ require 'review'
 
 describe Review do
   describe 'attributes' do
-    let(:revire) do
-      Review.new('Great movie', 'Lorem ipsum dolor sir amet consecutum', 4)
+    let(:review) do
+      Review.new('Great movie', 'Lorem ipsum dolor sit amet consecutum', 4)
     end
 
     it 'has a title' do
@@ -12,7 +12,7 @@ describe Review do
     end
 
     it 'has a text' do
-      expect(review.title).to eq('Lorem ipsum dolor sit amet consecutum')
+      expect(review.text).to eq('Lorem ipsum dolor sit amet consecutum')
     end
 
     it 'has a rating' do

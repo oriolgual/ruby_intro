@@ -2,11 +2,11 @@ require 'spec_helper'
 require 'movie'
 
 describe Movie do
-  describe 'attributes' do
-    let('movie') do
-      Movie.new('Die Hard', 'Action', Date.new(1996, 1, 1))
-    end
+  let('movie') do
+    Movie.new('Die Hard', 'Action', Date.new(1996, 1, 1))
+  end
 
+  describe 'attributes' do
     it 'has a title' do
       expect(movie.title).to eq('Die Hard')
     end
@@ -32,30 +32,6 @@ describe Movie do
     end
   end
 
-  describe 'rating' do
-    let('movie') do
-      Movie.new('Die Hard', 'Action', Date.new(1996, 1, 1))
-    end
-
-    it 'calculates the movie rating based on reviews' do
-      great = Review.new('Great movie', 'Great!!', 5)
-      meh = Review.new('Meeehhh', 'Not impressive', 3)
-      bad = Review.new('This movie sucks', "Don't watch it!", 0)
-
-      movie.reviews << great
-      movie.reviews << meh
-      movie.reviews << bad
-
-      expect(movie.rating).to eq(3)
-    end
-
-    context "when it has no reviews" do
-      it 'returns nil' do
-        expect(movie.rating).to eq(nil)
-      end
-    end
-  end
-
   describe 'reviews' do
     it 'returns an array of reviews' do
       great = Review.new('Great movie', 'Great!!', 5)
@@ -70,6 +46,32 @@ describe Movie do
       expect(movie.reviews[0]).to eq(great)
       expect(movie.reviews[1]).to eq(meh)
       expect(movie.reviews[2]).to eq(bad)
+    end
+  end
+
+  describe 'rating' do
+    let('movie') do
+      Movie.new('Die Hard', 'Action', Date.new(1996, 1, 1))
+    end
+
+    context "when the movie has some reviews" do
+      it 'calculates the movie rating based on reviews' do
+        great = Review.new('Great movie', 'Great!!', 5)
+        meh = Review.new('Meeehhh', 'Not impressive', 3)
+        bad = Review.new('This movie sucks', "Don't watch it!", 0)
+
+        movie.reviews << great
+        movie.reviews << meh
+        movie.reviews << bad
+
+        expect(movie.rating).to eq(2.67)
+      end
+    end
+
+    context "when it has no reviews" do
+      it 'returns nil' do
+        expect(movie.rating).to eq(nil)
+      end
     end
   end
 end
