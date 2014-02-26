@@ -3,7 +3,7 @@ require 'movie'
 
 describe Movie do
   let('movie') do
-    Movie.new('Die Hard', 'Action', Date.new(1996, 1, 1))
+    Movie.new('Die Hard', 'Action', 'John McTiernan', Date.new(1988, 7, 22))
   end
 
   describe 'attributes' do
@@ -15,15 +15,19 @@ describe Movie do
       expect(movie.genre).to eq('Action')
     end
 
+    it 'has a director' do
+      expect(movie.director).to eq('John McTiernan')
+    end
+
     it 'has a date' do
-      expect(movie.date).to eq(Date.new(1996, 1, 1))
+      expect(movie.date).to eq(Date.new(1988, 7, 22))
     end
   end
 
   describe 'ordering' do
     it 'orders itself by its title' do
-      aladdin = Movie.new('Aladdin', 'foo', Date.new)
-      top_gun = Movie.new('Top Gun', 'foo', Date.new)
+      aladdin = Movie.new('Aladdin', 'Animation', 'Ron Clements', Date.new(1992, 11, 25))
+      top_gun = Movie.new('Top Gun', 'Action', 'Tony Scott', Date.new(1986, 5, 16))
 
       ordered_movies = [top_gun, aladdin].sort
 
@@ -51,7 +55,7 @@ describe Movie do
 
   describe 'rating' do
     let('movie') do
-      Movie.new('Die Hard', 'Action', Date.new(1996, 1, 1))
+      Movie.new('Die Hard', 'Action', 'John McTiernan', Date.new(1988, 7, 22))
     end
 
     context "when the movie has some reviews" do
@@ -71,6 +75,40 @@ describe Movie do
     context "when it has no reviews" do
       it 'returns nil' do
         expect(movie.rating).to eq(nil)
+      end
+    end
+  end
+
+  describe 'similarity_to' do
+    let(:aladdin) { Movie.new('Aladdin', 'Animation', 'Ron Clements', Date.new(1992, 11, 25)) }
+    let(:top_gun) { Movie.new('Top Gun', 'Action', 'Tony Scott', Date.new(1986, 5, 16)) }
+
+    it 'is 100% similar to itself' do
+      other_aladdin = Movie.new('Aladdin', 'Animation', 'Ron Clements', Date.new(1992, 11, 25))
+      expect(aladdin.similarity_to(other_aladdin)).to eq(100.0)
+    end
+
+    context 'when it has the same genre as another movie' do
+      it 'is 50% similar' do
+        up = Movie.new('Up', 'Animation', 'Pete Docter', Date.new(2009, 5, 29))
+
+        expect(aladdin.similarity_to(up)).to eq(50.0)
+      end
+    end
+
+    context 'when it has the same director as another movie' do
+      it 'is 25% similar' do
+        the_fan = Movie.new('The Fan', 'Drama', 'Tony Scott', Date.new(1996, 8, 16))
+
+        expect(top_gun.similarity_to(the_fan)).to eq(25.0)
+      end
+    end
+
+    context 'when it has the same genre and director' do
+      it 'is 75% similar' do
+        man_on_fire = Movie.new('Man on Fire', 'Action', 'Tony Scott', Date.new(2004, 4, 23))
+
+        expect(top_gun.similarity_to(man_on_fire)).to eq(75.0)
       end
     end
   end
