@@ -1,9 +1,10 @@
 require 'spec_helper'
 require 'movie'
+require 'pry'
 
 describe Movie do
   let('movie') do
-    Movie.new('Die Hard', 'Action', 'John McTiernan', Date.new(1988, 7, 22))
+    Movie.new('0095016')
   end
 
   describe 'attributes' do
@@ -26,8 +27,8 @@ describe Movie do
 
   describe 'ordering' do
     it 'orders itself by its title' do
-      aladdin = Movie.new('Aladdin', 'Animation', 'Ron Clements', Date.new(1992, 11, 25))
-      top_gun = Movie.new('Top Gun', 'Action', 'Tony Scott', Date.new(1986, 5, 16))
+      aladdin = Movie.new('Aladdin')
+      top_gun = Movie.new('Top Gun')
 
       ordered_movies = [top_gun, aladdin].sort
 
@@ -55,7 +56,7 @@ describe Movie do
 
   describe 'rating' do
     let('movie') do
-      Movie.new('Die Hard', 'Action', 'John McTiernan', Date.new(1988, 7, 22))
+      Movie.new('Die Hard')
     end
 
     context "when the movie has some reviews" do
@@ -80,17 +81,17 @@ describe Movie do
   end
 
   describe 'similarity_to' do
-    let(:aladdin) { Movie.new('Aladdin', 'Animation', 'Ron Clements', Date.new(1992, 11, 25)) }
-    let(:top_gun) { Movie.new('Top Gun', 'Action', 'Tony Scott', Date.new(1986, 5, 16)) }
+    let(:aladdin) { Movie.new('Aladdin')}
+    let(:top_gun) { Movie.new('Top Gun') }
 
     it 'is 100% similar to itself' do
-      other_aladdin = Movie.new('Aladdin', 'Animation', 'Ron Clements', Date.new(1992, 11, 25))
+      other_aladdin = Movie.new('Aladdin')
       expect(aladdin.similarity_to(other_aladdin)).to eq(100.0)
     end
 
     context 'when it has the same genre as another movie' do
       it 'is 50% similar' do
-        up = Movie.new('Up', 'Animation', 'Pete Docter', Date.new(2009, 5, 29))
+        up = Movie.new('Up')
 
         expect(aladdin.similarity_to(up)).to eq(50.0)
       end
@@ -98,7 +99,7 @@ describe Movie do
 
     context 'when it has the same director as another movie' do
       it 'is 25% similar' do
-        the_fan = Movie.new('The Fan', 'Drama', 'Tony Scott', Date.new(1996, 8, 16))
+        the_fan = Movie.new('The Fan')
 
         expect(top_gun.similarity_to(the_fan)).to eq(25.0)
       end
@@ -106,7 +107,7 @@ describe Movie do
 
     context 'when it has the same genre and director' do
       it 'is 75% similar' do
-        man_on_fire = Movie.new('Man on Fire', 'Action', 'Tony Scott', Date.new(2004, 4, 23))
+        man_on_fire = Movie.new('Man on Fire')
 
         expect(top_gun.similarity_to(man_on_fire)).to eq(75.0)
       end

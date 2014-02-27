@@ -1,15 +1,29 @@
 require 'date'
 require 'review'
+require 'imdb'
 
 class Movie
-  attr_reader :title, :genre, :director, :date, :reviews
+  attr_reader :id, :title, :reviews
 
-  def initialize(title, genre, director, date)
-    @title     = title
-    @genre     = genre
-    @director  = director
-    @date      = date
+  def initialize(id)
+    @id     = id
     @reviews   = []
+  end
+
+  def title
+    imdb.title
+  end
+
+  def genre
+    imdb.genres.first
+  end
+
+  def director
+    imdb.director.first
+  end
+
+  def date
+    Date.parse(imdb.release_date)
   end
 
   def rating
@@ -34,5 +48,10 @@ class Movie
 
   def ==(other)
     title == other.title && genre == other.genre && director == other.director
+  end
+
+  private
+  def imdb
+    @imdb ||= Imdb::Movie.new(id)
   end
 end

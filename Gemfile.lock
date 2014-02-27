@@ -16,12 +16,17 @@ GEM
     guard-rspec (4.2.5)
       guard (~> 2.1)
       rspec (>= 2.14, < 4.0)
+    imdb (0.8.1)
+      nokogiri (>= 1.6.0)
     listen (2.4.0)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.4)
     method_source (0.8.2)
+    mini_portile (0.5.2)
+    nokogiri (1.6.1)
+      mini_portile (~> 0.5.0)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -48,5 +53,7 @@ PLATFORMS
 DEPENDENCIES
   guard
   guard-rspec
+  imdb
+  pry
   rspec
   spring
