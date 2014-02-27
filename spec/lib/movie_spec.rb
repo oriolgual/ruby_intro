@@ -8,6 +8,17 @@ describe Movie, :vcr do
   end
 
   describe 'attributes' do
+    let(:id) { '0095016' }
+    let('movie') do
+      Movie.new(id, test_movie_database)
+    end
+    let('test_movie_database') do
+      double('Custom IMDB', title: 'Die Hard',
+                            director: ['John McTiernan'],
+                            release_date: '1988-7-22'
+            )
+    end
+
     it 'has a title' do
       expect(movie.title).to eq('Die Hard')
     end
