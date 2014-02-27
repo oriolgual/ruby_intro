@@ -23,7 +23,7 @@ class Movie
   end
 
   def date
-    Date.parse(imdb.release_date)
+    Date.parse(imdb.release_date.to_s)
   end
 
   def rating

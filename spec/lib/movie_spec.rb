@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'movie'
 require 'pry'
 
-describe Movie do
+describe Movie, :vcr do
   let('movie') do
     Movie.new('0095016')
   end
@@ -56,7 +56,7 @@ describe Movie do
 
   describe 'rating' do
     let('movie') do
-      Movie.new('Die Hard')
+      Movie.new('0095016')
     end
 
     context "when the movie has some reviews" do
