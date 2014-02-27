@@ -6,8 +6,8 @@ describe Cinema do
   describe 'add' do
     it 'adds a movie to our listing' do
       cinema = Cinema.new
-
-      cinema.add_movie(Movie.new('Top Gun', 'Action', 'Tony Scott', Date.new(1986, 5, 16)))
+      pako = double('Pako', {title: 'Top Gun', director: 'Director'})
+      cinema.add_movie(pako)
 
       expect(cinema.listing).to include('Top Gun')
     end
