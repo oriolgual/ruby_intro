@@ -27,12 +27,15 @@ class Movie
   end
 
   def rating
-    return nil if reviews.empty?
-
-    (reviews.map(&:rating).reduce(&:+).to_f / reviews.length).round(2)
+    MovieRating.new(ratings).rating
   end
 
   def ==(other)
     title == other.title && genre == other.genre && director == other.director
+  end
+
+  private
+  def ratings
+    reviews.map(&:rating)
   end
 end
