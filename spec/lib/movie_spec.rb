@@ -27,8 +27,8 @@ describe Movie do
 
   describe 'ordering' do
     it 'orders itself by its title' do
-      aladdin = Movie.new('Aladdin')
-      top_gun = Movie.new('Top Gun')
+      aladdin = Movie.new('0103639')
+      top_gun = Movie.new('0092099')
 
       ordered_movies = [top_gun, aladdin].sort
 
@@ -81,17 +81,17 @@ describe Movie do
   end
 
   describe 'similarity_to' do
-    let(:aladdin) { Movie.new('Aladdin')}
-    let(:top_gun) { Movie.new('Top Gun') }
+    let(:aladdin) { Movie.new('0103639')}
+    let(:top_gun) { Movie.new('0092099') }
 
     it 'is 100% similar to itself' do
-      other_aladdin = Movie.new('Aladdin')
+      other_aladdin = Movie.new('0103639')
       expect(aladdin.similarity_to(other_aladdin)).to eq(100.0)
     end
 
     context 'when it has the same genre as another movie' do
       it 'is 50% similar' do
-        up = Movie.new('Up')
+        up = Movie.new('1049413')
 
         expect(aladdin.similarity_to(up)).to eq(50.0)
       end
@@ -99,7 +99,7 @@ describe Movie do
 
     context 'when it has the same director as another movie' do
       it 'is 25% similar' do
-        the_fan = Movie.new('The Fan')
+        the_fan = Movie.new('0116277')
 
         expect(top_gun.similarity_to(the_fan)).to eq(25.0)
       end
@@ -107,7 +107,7 @@ describe Movie do
 
     context 'when it has the same genre and director' do
       it 'is 75% similar' do
-        man_on_fire = Movie.new('Man on Fire')
+        man_on_fire = Movie.new('0328107')
 
         expect(top_gun.similarity_to(man_on_fire)).to eq(75.0)
       end
