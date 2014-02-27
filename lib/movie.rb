@@ -32,16 +32,6 @@ class Movie
     (reviews.map(&:rating).reduce(&:+).to_f / reviews.length).round(2)
   end
 
-  def similarity_to(other_movie)
-    return 100.0 if self == other_movie
-
-    similarity = 0
-    similarity += 50 if genre == other_movie.genre
-    similarity += 25 if director == other_movie.director
-
-    similarity.to_f
-  end
-
   def ==(other)
     title == other.title && genre == other.genre && director == other.director
   end

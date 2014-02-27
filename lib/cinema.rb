@@ -52,12 +52,10 @@ class Cinema
   end
 
   def similar_movies(movie_to_compare)
-    similarities = MovieComparer.new(@movies).similarities_to(movie_to_compare)
+    comparer = MovieComparer.new(movie_to_compare)
 
-    similarities.select! do |similarity, movie|
-      similarity > 20
-    end
-
-    similarities.map(&:last).map(&:title).sort
+    @movies.select do |movie|
+      comparer.similarity_to(movie) > 20
+    end.map(&:title)
   end
 end

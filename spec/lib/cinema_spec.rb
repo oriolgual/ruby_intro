@@ -92,9 +92,6 @@ describe Cinema do
       clerks = double(title: 'Clerks', genre: 'Comedy', director: 'Kevin Smith', date: Date.new(1994, 11, 30))
 
       up = double(title: 'Up', genre: 'Animation', director: 'Pete Docter', date: Date.new(2009, 5, 29))
-      similarities = [[0, die_hard], [50, aladdin], [50, aladdin2], [0, clerks]]
-
-      MovieComparer.any_instance.should_receive(:similarities_to).with(up).and_return(similarities)
 
       cinema = Cinema.new([die_hard, aladdin, aladdin2, clerks])
 
