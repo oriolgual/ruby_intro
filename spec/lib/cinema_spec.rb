@@ -15,7 +15,7 @@ describe Cinema do
 
   describe 'remove' do
     it 'remove a movie from our listing' do
-      top_gun = Movie.new('Top Gun', 'Action', 'Tony Scott', Date.new(1986, 5, 16))
+      top_gun = double(title: 'Top Gun', genre: 'Action', director: 'Tony Scott', date: Date.new(1986, 5, 16))
       cinema = Cinema.new([top_gun])
 
       cinema.remove_movie(top_gun)
@@ -26,9 +26,9 @@ describe Cinema do
 
   describe 'listing' do
     let(:cinema) do
-      die_hard = Movie.new('Die Hard', 'Action', 'John McTiernan', Date.new(1988, 7, 22))
-      aladdin = Movie.new('Aladdin', 'Animation', 'Ron Clements', Date.new(1992, 11, 25))
-      clerks = Movie.new('Clerks', 'Comedy', 'Kevin Smith', Date.new(1994, 11, 30))
+      die_hard = double(title: 'Die Hard', genre: 'Action', director: 'John McTiernan', date: Date.new(1988, 7, 22))
+      aladdin = double(title: 'Aladdin', genre: 'Animation', director: 'Ron Clements', date: Date.new(1992, 11, 25))
+      clerks = double(title: 'Clerks', genre: 'Comedy', director: 'Kevin Smith', date: Date.new(1994, 11, 30))
 
       Cinema.new([die_hard, aladdin, clerks])
     end
@@ -52,9 +52,10 @@ describe Cinema do
 
   describe 'group_by_genre' do
     it 'group the movies of the cinema by genre' do
-      die_hard = Movie.new('Die Hard', 'Action', 'John McTiernan', Date.new(1988, 7, 22))
-      aladdin = Movie.new('Aladdin', 'Animation', 'Ron Clements', Date.new(1992, 11, 25))
-      clerks = Movie.new('Clerks', 'Comedy', 'Kevin Smith', Date.new(1994, 11, 30))
+      die_hard = double(title: 'Die Hard', genre: 'Action', director: 'John McTiernan', date: Date.new(1988, 7, 22))
+      aladdin = double(title: 'Aladdin', genre: 'Animation', director: 'Ron Clements', date: Date.new(1992, 11, 25))
+      clerks = double(title: 'Clerks', genre: 'Comedy', director: 'Kevin Smith', date: Date.new(1994, 11, 30))
+
       cinema = Cinema.new([die_hard, aladdin, clerks])
 
       titles = cinema.group_by_genre
@@ -69,10 +70,10 @@ describe Cinema do
 
   describe 'movies_per_genre' do
     it 'counts the number of movies in each genre' do
-      die_hard = Movie.new('Die Hard', 'Action', 'John McTiernan', Date.new(1988, 7, 22))
-      aladdin = Movie.new('Aladdin', 'Animation', 'Ron Clements', Date.new(1992, 11, 25))
-      aladdin2 = Movie.new('Aladdin 2', 'Animation', 'Toby Shelton', Date.new(1994, 5, 20))
-      clerks = Movie.new('Clerks', 'Comedy', 'Kevin Smith', Date.new(1994, 11, 30))
+      die_hard = double(title: 'Die Hard', genre: 'Action', director: 'John McTiernan', date: Date.new(1988, 7, 22))
+      aladdin = double(title: 'Aladdin', genre: 'Animation', director: 'Ron Clements', date: Date.new(1992, 11, 25))
+      aladdin2 = double(title: 'Aladdin 2', genre: 'Animation', director: 'Toby Shelton', date: Date.new(1994, 5, 20))
+      clerks = double(title: 'Clerks', genre: 'Comedy', director: 'Kevin Smith', date: Date.new(1994, 11, 30))
       cinema = Cinema.new([die_hard, aladdin, aladdin2, clerks])
 
       histogram = cinema.movies_per_genre
@@ -85,13 +86,17 @@ describe Cinema do
 
   describe 'similar_movies' do
     it 'returns the titles of similar movies' do
-      die_hard = Movie.new('Die Hard', 'Action', 'John McTiernan', Date.new(1988, 7, 22))
-      aladdin = Movie.new('Aladdin', 'Animation', 'Ron Clements', Date.new(1992, 11, 25))
-      aladdin2 = Movie.new('Aladdin 2', 'Animation', 'Toby Shelton', Date.new(1994, 5, 20))
-      clerks = Movie.new('Clerks', 'Comedy', 'Kevin Smith', Date.new(1994, 11, 30))
-      cinema = Cinema.new([die_hard, aladdin, aladdin2, clerks])
+      die_hard = double(title: 'Die Hard', genre: 'Action', director: 'John McTiernan', date: Date.new(1988, 7, 22))
+      aladdin = double(title: 'Aladdin', genre: 'Animation', director: 'Ron Clements', date: Date.new(1992, 11, 25))
+      aladdin2 = double(title: 'Aladdin 2', genre: 'Animation', director: 'Toby Shelton', date: Date.new(1994, 5, 20))
+      clerks = double(title: 'Clerks', genre: 'Comedy', director: 'Kevin Smith', date: Date.new(1994, 11, 30))
 
-      up = Movie.new('Up', 'Animation', 'Pete Docter', Date.new(2009, 5, 29))
+      up = double(title: 'Up', genre: 'Animation', director: 'Pete Docter', date: Date.new(2009, 5, 29))
+      similarities = [[0, die_hard], [50, aladdin], [50, aladdin2], [0, clerks]]
+
+      MovieComparer.any_instance.should_receive(:similarities_to).with(up).and_return(similarities)
+
+      cinema = Cinema.new([die_hard, aladdin, aladdin2, clerks])
 
       similar_movies = cinema.similar_movies(up)
 

@@ -42,10 +42,6 @@ class Movie
     similarity.to_f
   end
 
-  def <=>(other_movie)
-    title <=> other_movie.title
-  end
-
   def ==(other)
     title == other.title && genre == other.genre && director == other.director
   end

@@ -1,10 +1,12 @@
+require 'movie_comparer'
+
 class Cinema
   def initialize(movies = [])
     @movies = movies
   end
 
   def listing
-    @movies.sort.map{ |movie| movie.title }
+    @movies.map{ |movie| movie.title }.sort
   end
 
   def add_movie(movie)
@@ -20,7 +22,7 @@ class Cinema
       movie.genre == genre
     end
 
-    movies_by_genre.sort.map{ |movie| movie.title }
+    movies_by_genre.map{ |movie| movie.title }.sort
   end
 
   def listing_by_date
@@ -30,7 +32,7 @@ class Cinema
   def listing_between(before, after)
     @movies.select do |movie|
       movie.date.between?(before, after)
-    end.sort.map{|movie| movie.title}
+    end.map{|movie| movie.title}.sort
   end
 
   def group_by_genre
@@ -50,16 +52,12 @@ class Cinema
   end
 
   def similar_movies(movie_to_compare)
-    similar_movies = @movies.map do |movie|
-      [movie_to_compare.similarity_to(movie), movie]
-    end
+    similarities = MovieComparer.new(@movies).similarities_to(movie_to_compare)
 
-    similar_movies.select! do |similarity, movie|
+    similarities.select! do |similarity, movie|
       similarity > 20
     end
 
-    similar_movies.map do |similarity, movie|
-      movie.title
-    end
+    similarities.map(&:last).map(&:title).sort
   end
 end
